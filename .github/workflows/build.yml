@@ -1,0 +1,50 @@
+name: Build Project
+
+on:
+  push:
+    branches:
+      - ma
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      AWS_SQS_NAME: ${{ secrets.AWS_SQS_NAME }}
+      AWS_SQS_URL: ${{ secrets.AWS_SQS_URL }}
+      AWS_MYSQL_HOST: ${{ secrets.AWS_MYSQL_HOST }}
+      AWS_MYSQL_USER: ${{ secrets.AWS_MYSQL_USER }}
+      AWS_MYSQL_PASSWORD: ${{ secrets.AWS_MYSQL_PASSWORD }}
+      AWS_AWS_MYSQL_DB: ${{ secrets.AWS_MYSQL_DB }}
+      AWS_SNS_ARN: ${{ secrets.AWS_SNS_ARN }}
+
+
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0' 
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-folder
+          path: dist/
