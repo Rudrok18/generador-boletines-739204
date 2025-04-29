@@ -28,6 +28,9 @@ jobs:
       AWS_ECR_NAME: ${{ secrets.AWS_ECR_NAME }}
       AWS_ECR_REGISTRY: ${{ secrets.AWS_ECR_REGISTRY }}
       IMAGE_TAG: ${{ github.sha }}
+      AWS_EC2_HOST: ${{ secrets.AWS_EC2_HOST }}
+      AWS_EC2_USER: ${{ secrets.AWS_EC2_USER }}
+      AWS_EC2_SSH: ${{ secrets.AWS_EC2_SSH}}
 
 
     
@@ -72,3 +75,4 @@ jobs:
       - name: Output Image URL
         run: |
           echo "Image URL: $AWS_ECR_REGISTRY/$AWS_ECR_NAME:$IMAGE_TAG"
+      
